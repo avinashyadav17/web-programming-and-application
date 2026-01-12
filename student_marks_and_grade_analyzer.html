@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Marks & Grade Analyzer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 40px;
+        }
+        input, button {
+            padding: 6px;
+            margin: 5px;
+        }
+        table {
+            width: 80%;
+            margin: auto;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+        }
+        .pass {
+            background-color: #c8f7c5;
+        }
+        .fail {
+            background-color: #f7c5c5;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Student Marks and Grade Analyzer</h2>
+
+<input type="text" id="name" placeholder="Student Name"><br>
+<input type="number" id="sub1" placeholder="Subject 1 Marks"><br>
+<input type="number" id="sub2" placeholder="Subject 2 Marks"><br>
+<input type="number" id="sub3" placeholder="Subject 3 Marks"><br>
+<input type="number" id="sub4" placeholder="Subject 4 Marks"><br>
+<input type="number" id="sub5" placeholder="Subject 5 Marks"><br>
+
+<button onclick="addStudent()">Add Result</button>
+
+<table>
+    <thead>
+        <tr>
+            <th>Student Name</th>
+            <th>Total</th>
+            <th>Percentage</th>
+            <th>Grade</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody id="resulttable"></tbody>
+</table>
+
+<script>
+function addStudent() {
+    let name = document.getElementById("name").value;
+
+    let marks = [
+        Number(document.getElementById("sub1").value),
+        Number(document.getElementById("sub2").value),
+        Number(document.getElementById("sub3").value),
+        Number(document.getElementById("sub4").value),
+        Number(document.getElementById("sub5").value)
+    ];
+
+    if (name === "" || marks.includes(NaN)) {
+        alert("Please enter valid details");
+        return;
+    }
+
+    let total = 0;
+    for (let i = 0; i < marks.length; i++) {
+        total += marks[i];
+    }
+
+    let percentage = (total / (marks.length * 100)) * 100;
+
+    let grade;
+    if (percentage >= 80) grade = "A";
+    else if (percentage >= 60) grade = "B";
+    else if (percentage >= 40) grade = "C";
+    else grade = "F";
+
+    let status = percentage >= 40 ? "Pass" : "Fail";
+
+    let row = document.createElement("tr");
+    row.className = status === "Pass" ? "pass" : "fail";
+
+    row.innerHTML = `
+        <td>${name}</td>
+        <td>${total}</td>
+        <td>${percentage.toFixed(2)}</td>
+        <td>${grade}</td>
+        <td>${status}</td>
+    `;
+
+    document.getElementById("resulttable").appendChild(row);
+}
+</script>
+
+</body>
+</html>
