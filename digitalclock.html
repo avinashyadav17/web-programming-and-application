@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Clock and Countdown Timer</title>
+
+    <style>
+        body{
+            font-family: Arial, Helvetica, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .clock, .timer{
+            font-size: 30px;
+            margin: 20px;
+            font-weight: bold;
+        }
+
+        input{
+            padding: 10px;
+            font-size: 16px;
+        }
+        button{
+            padding:6px 15px;
+            font-size:16px;
+            margin-left:5px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Digital Clock</h2>
+    <div class="clock" id="clock"></div>
+
+    <h2>Countdown Timer</h2>
+    <input type="number" id="timeInput" placeholder="Enter time in seconds">
+    <button onclick="startTimer()">Start Timer</button>
+
+    <div class="timer" id="timerDisplay"></div>
+
+<script>
+    // Digital Clock
+    function showClock(){
+        let now = new Date();
+        let h = now.getHours();
+        let m = now.getMinutes();
+        let s = now.getSeconds();
+
+        h = h < 10 ? "0" + h : h;
+        m = m < 10 ? "0" + m : m;
+        s = s < 10 ? "0" + s : s;
+
+        document.getElementById("clock").innerHTML = h + ":" + m + ":" + s;
+    }
+    setInterval(showClock, 1000);
+
+    // Countdown Timer
+    let countdown;
+
+    function startTimer(){
+        let time = parseInt(document.getElementById("timeInput").value);
+        let display = document.getElementById("timerDisplay");
+
+        if (isNaN(time) || time <= 0){
+            alert("Please enter a valid time");
+            return;
+        }
+
+        clearInterval(countdown);
+
+        countdown = setInterval(function() {
+            display.innerHTML = time + " seconds remaining";
+            time--;
+
+            if(time < 0){
+                clearInterval(countdown);
+                display.innerHTML = "Time's up!";
+                alert("Countdown finished!");
+            }
+        }, 1000);
+    }
+</script>
+
+</body>
+</html>

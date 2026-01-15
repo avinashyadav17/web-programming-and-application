@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Number Guessing Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        input, button {
+            padding: 6px;
+            margin: 5px;
+        }
+        #message {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Number Guessing Game</h2>
+
+    <input type="number" id="guess" placeholder="Enter a number between 1 and 100">
+    <button onclick="checkGuess()">Check</button>
+
+    <p id="message"></p>
+    <p>Score: <span id="score">10</span></p>
+
+    <script>
+        let randomNumber = Math.floor(Math.random() * 100) + 1;
+        let score = 10;
+
+        function checkGuess() {
+            let userGuess = Number(document.getElementById("guess").value);
+
+            if (userGuess < 1 || userGuess > 100) {
+                document.getElementById("message").innerText =
+                    "Please enter a number between 1 and 100";
+                return;
+            }
+
+            if (score <= 0) {
+                document.getElementById("message").innerText =
+                    "Game Over! You lost. The number was " + randomNumber;
+                return;
+            }
+
+            if (userGuess === randomNumber) {
+                document.getElementById("message").innerText =
+                    "🎉 Correct! You won!";
+                return;
+            }
+
+            score--;
+            document.getElementById("score").innerText = score;
+
+            if (userGuess > randomNumber) {
+                document.getElementById("message").innerText = "Too high!";
+            } else {
+                document.getElementById("message").innerText = "Too low!";
+            }
+
+            if (score === 0) {
+                document.getElementById("message").innerText =
+                    "Game Over! You lost. The number was " + randomNumber;
+            }
+        }
+    </script>
+</body>
+</html>
+

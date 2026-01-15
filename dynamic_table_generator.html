@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+<style>
+    body{
+        font-family: Arial, Helvetica, sans-serif;
+        text-align: center;
+        margin-top: 50px;
+    }
+    table{
+        margin:20px auto;
+        border-collapse: collapse;
+        width: 50%;
+    }
+    th, td{
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: center;
+    }
+    th{
+        background-color: #f2f2f2;
+    }
+
+    button{
+        padding: 6px 15px;
+        margin:5px;
+        font-size: 16px;
+    }
+</style>
+</head>
+<body>
+    <h2>Dynamic Table Generator</h2>
+    Rows:
+    <input type="number" id="rows" min="1" max="100" placeholder="rows">
+    Columns:
+    <input type="number" id="columns" min="1" max="100" placeholder="columns">
+ <br><br>
+
+
+ <button onclick="generateTable()">Generate Table</button>
+ <button onclick="addRow()">Add Row</button>
+<button onclick="deleteRow()">Delete Row</button>
+<button onclick="highlightEven()">Highlight Even Rows</button>
+ <div id="tableContainer"></div>
+
+ <script>
+    let tabel;
+    function generateTable(){
+        let r= parseInt(document.getElementById("rows").value);
+        let c=parseInt(document.getElementById("columns").value);
+
+        if(isNaN(r) || isNaN(c) || r<=0 || c<=0){
+            alert("Please enter valid numbers for rows and columns");
+            return;
+        }
+
+       table=document.createElement("table");
+       for(let i=0; i<r ;i++){
+        let row=table.insertRow();
+        for(let j=0; j<c ;j++){
+            let cell=row.insertCell();
+            cell.innerHTML="Row " + (i+1) + " Col " + (j+1);
+        }
+       }
+
+       let container=document.getElementById("tableContainer");
+       container.innerHTML="";
+       container.appendChild(table);
+    }
+
+    function addRow(){  
+        if(!table) return;
+        let cols =table.rows[0].cells.length;
+        let row=table.insertRow();
+        for(let j=0; j<cols; j++){
+            let cell=row.insertCell();
+            cell.innerHTML="Row " + (table.rows.length) + " Col " + (j+1);
+        }
+    }
+
+    function deleteRow(){
+        if(table && table.rows.length>0){
+            table.deleteRow(-1);
+        }
+
+        }
+    function highlightEven(){
+        for(let i=0;i<table.rows.length;i++){
+            if((i+1)%2==0){
+                table.rows[i].style.backgroundColor="red";
+            }else{
+                table.rows[i].style.backgroundColor="";
+            }
+        }
+    }
+      
+ </script>
+</body>
+</html>

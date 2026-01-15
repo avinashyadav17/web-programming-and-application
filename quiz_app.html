@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz App</title>
+    <style>
+        body{
+            font-family: Arial, Helvetica, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        #quixcontainer{
+            padding: 20px;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+        }
+
+        #question{
+            font-size: 1.2em;
+            margin-bottom: 15px;
+        }
+
+        .option{
+            display:block;
+            margin: 8px 0;
+            font-size: 1.1em;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        .option:hover{
+            background-color: #f9f9f9;
+        }
+
+        input[type="radio"]{
+            margin-right: 8px;
+            cursor: pointer;
+        }
+
+        button{
+            padding: 8px 15px;
+            margin-top: 10px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+
+        #result{
+            padding: 20px;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        #score{
+            font-size: 1.4em;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h2>Quiz App</h2>
+    <div id="quixcontainer">
+        <p id="question"></p>
+        <div id="options"></div>
+        <button onclick="nextQuestion()">Next</button>
+    </div>
+
+    <div id="result" style="display:none;">
+        <h3>Your score: <span id="score"></span></h3>
+    </div>
+
+    <script>
+        const questions=[
+            {question:"what is the capital of Nepal?", options:["Kathmandu","Pokhara","Chitwan","Dhulikhel"], answer:"Kathmandu"},
+            {question:"which language is used for web apps?", options:["python","java","c++","javascript"], answer:"javascript"},
+            {question:"who is known as father of computer?", options:["albert einstein","isaac newton","charles darwin","alan turing"], answer:"alan turing"},
+            {question:"what is the full form of html?", options:["hypertext markup language","hypertext programming language","hypertext preprocessor","hypertext transfer protocol"], answer:"hypertext markup language"},
+            {question:"what is the full form of css?", options:["Cascading Style Sheets","Computer Style Sheets","Creative Style System","Colorful Style Sheets"], answer:"Cascading Style Sheets"}
+        ];
+
+        let currentquestion=0;
+        let score=0;
+
+        function loadquestion(){
+            const q=questions[currentquestion];
+            document.getElementById("question").innerText=q.question;
+            const optionsDiv=document.getElementById("options");
+            optionsDiv.innerHTML="";
+            q.options.forEach((option)=>{
+                const radio=document.createElement("input");
+                radio.type="radio";
+                radio.name="option";
+                radio.value=option;
+                const label=document.createElement("label");
+                label.className="option";
+                label.appendChild(radio);
+                label.appendChild(document.createTextNode(option));
+                optionsDiv.appendChild(label);
+            });
+        }
+
+        function nextQuestion(){
+            const selectedoption = document.querySelector('input[name="option"]:checked');
+            if(!selectedoption){
+                alert("Please select an option");
+                return;
+            }
+            if(selectedoption.value===questions[currentquestion].answer){
+                score++;
+            }
+            currentquestion++;
+            if(currentquestion<questions.length){
+                loadquestion();
+            } else{
+                document.getElementById("quixcontainer").style.display = "none";
+                document.getElementById("result").style.display="block";
+                document.getElementById("score").innerText=score + "/" + questions.length;
+            }
+        }
+
+        loadquestion();
+    </script>
+</body>
+</html>
