@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Validation</title>
+    <style>
+        .error { color: red; font-size: 14px; }
+    </style>
+</head>
+<body>
+<form id="myForm">
+  <input type="text" id="name" name="name" placeholder="Enter your name">
+  <div id="nameError" class="error"></div>
+
+  <input type="email" id="email" name="email" placeholder="Enter your email">
+  <div id="emailError" class="error"></div>
+
+  <input type="password" id="password" name="password" placeholder="Enter your password">
+  <div id="passwordError" class="error"></div>
+
+  <button type="submit">Submit</button>
+</form>
+
+<script>
+const form = document.getElementById('myForm');
+
+form.addEventListener('submit', function(e) {
+    e.preventDefault(); 
+    let valid = true;
+    let emailValid = true; 
+
+    form.querySelectorAll('input').forEach(input => {
+        const errorDiv = input.nextElementSibling;
+        const value = input.value.trim();
+
+        if (input.name === 'name') {
+            if (value === '') { errorDiv.textContent = "Name is required"; valid = false; }
+            else if (!/^[A-Za-z ]+$/.test(value)) { errorDiv.textContent = "Only letters allowed"; valid = false; }
+            else { errorDiv.textContent = ""; }
+        }
+
+        if (input.name === 'email') {
+            if (value === '') { errorDiv.textContent = "Email is required"; valid = false; emailValid = false; }
+            else if (!/^[^ ]+@[^ ]+\.[a-z]{2,3}$/.test(value)) { 
+                errorDiv.textContent = "Enter a valid email"; 
+                valid = false; 
+                emailValid = false;
+            }
+            else { errorDiv.textContent = ""; emailValid = true; }
+        }
+
+        if (input.name === 'password') {
+            if (value === '') { errorDiv.textContent = "Password is required"; valid = false; }
+            else if (value.length < 6) { errorDiv.textContent = "Password must be at least 6 characters"; valid = false; }
+            else { errorDiv.textContent = ""; }
+        }
+    });
+
+    if (!emailValid) {
+        alert("Your email is not valid!");
+    }
+
+    if (valid) {
+        alert("Form submitted successfully!");
+        form.reset();
+    }
+});
+</script>
+</body>
+</html>

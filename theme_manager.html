@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>theme manager</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+            border: none;
+            font-size: 16px;
+        }
+
+        .controls {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Event-Driven Theme Manager</h1>
+    <p>Choose colors to apply a theme</p>
+    <button id="sampleBtn">Sample Button</button>
+    <div class="controls">
+        <label>
+            background-color:
+            <input type="color" id="bgColor">
+            </label>
+<label>
+            Text Color:
+            <input type="color" id="textColor">
+        </label>
+        <br><br>
+
+         <label>
+            Button Color:
+            <input type="color" id="btnColor">
+        </label>
+        <br><br>
+ <button onclick="resetTheme()">Reset Theme</button>
+    </div>
+
+  <br><br>
+    </div>
+
+
+    <script>
+
+         const defaultTheme = {
+            background: "#ffffff",
+            text: "#000000",
+            button: "#007BFF"
+        };
+
+        let theme = { ...defaultTheme };
+
+        const body = document.body;
+        const button = document.getElementById("sampleBtn");
+
+         function applyTheme() {
+            body.style.backgroundColor = theme.background;
+            body.style.color = theme.text;
+            button.style.backgroundColor = theme.button;
+            button.style.color = "#ffffff";
+        }
+
+        document.getElementById("bgColor").addEventListener("input", (e) => {
+            theme.background = e.target.value;
+            applyTheme();
+        });
+
+ document.getElementById("textColor").addEventListener("input", (e) => {
+            theme.text = e.target.value;
+            applyTheme();
+        });
+
+         document.getElementById("btnColor").addEventListener("input", (e) => {
+            theme.button = e.target.value;
+            applyTheme();
+        });
+
+         function resetTheme() {
+            theme = { ...defaultTheme };
+            applyTheme();
+        }
+        applyTheme();
+
+    </script>
+</body>
+    
+    
+</body>
+</html>
